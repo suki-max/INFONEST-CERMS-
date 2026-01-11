@@ -1,0 +1,17 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Build outputs
+dist/
+build/
+target/
+*.zip
+*.jar
+
+# IDE settings
+.vscode/
+.idea/
+
+# Local database files
+INFONEST.session.sql
