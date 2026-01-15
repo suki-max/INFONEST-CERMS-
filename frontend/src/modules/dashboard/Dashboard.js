@@ -60,18 +60,27 @@ export default function Dashboard({ user }) {
         </div>
 
         {/* Module 3: Venue - Student cannot see */}
-        {role !== 'student' && (
           <div className="col-md-4">
             <div className="card h-100 shadow-sm border-0 p-4 rounded-4">
               <h4 className="fw-bold">Venue Booking</h4>
               <p className="text-muted small">Reserve halls and check availability.</p>
               <div className="d-grid gap-2 mt-4">
-                {/* Paths matched with App.js */}
-                <Link to="/venue" className="btn btn-outline-primary rounded-pill">Check Availability</Link>
+                {/* Student ko message dikhayenge, baaki roles ko Link denge */}
+                {role === 'student' ? (
+                  <button 
+                    className="btn btn-outline-primary rounded-pill" 
+                    onClick={() => alert("Access Restricted: Students are not allowed to book venues or check internal availability.")}
+                  >
+                    Check Availability
+                  </button>
+                ) : (
+                  <Link to="/venue" className="btn btn-outline-primary rounded-pill">
+                    Check Availability
+                  </Link>
+                )}
               </div>
             </div>
           </div>
-        )}
       </div>
      
     </div>

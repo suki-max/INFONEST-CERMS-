@@ -5,12 +5,12 @@ import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.lang.NonNull; // Yeh zaroori hai
+import org.springframework.lang.NonNull;
 import java.util.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ClubController {
 
     @Autowired private ClubRepository clubRepository;
@@ -24,25 +24,23 @@ public class ClubController {
 
     @GetMapping("/clubs/{id}")
     public ResponseEntity<Map<String, Object>> getClubDetails(@PathVariable @NonNull String id) {
-        // Warning hatane ke liye explicit check
-        if (id == null || id.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        
+        Optional<Club> clubOptional = clubRepository.findById(id);
+
+        if (clubOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
-        // findById(id) ko safe banane ke liye Optional handling
-        Club club = clubRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Club not found"));
+        Club club = clubOptional.get();
 
-        // PostgreSQL Native Query use karke officials nikalna
+        // Data fetching from repositories
         List<User> officials = userRepository.findByClubId(id);
-
-        // Club ID ke basis par events nikalna
         List<Event> events = eventRepository.findByClubId(id);
 
         Map<String, Object> response = new HashMap<>();
         response.put("club", club);
-        response.put("officials", officials);
-        response.put("events", events);
+        response.put("officials", (officials != null) ? officials : new ArrayList<>());
+        response.put("events", (events != null) ? events : new ArrayList<>());
 
         return ResponseEntity.ok(response);
     }

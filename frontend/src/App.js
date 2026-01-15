@@ -26,7 +26,10 @@ function App() {
   const ProtectedRoute = ({ children, allowedRoles }) => {
     if (!user) return <Navigate to="/login" />;
     const userRole = user.role.toUpperCase();
-    if (!allowedRoles.includes(userRole)) return <Navigate to="/" />;
+    if (!allowedRoles.includes(userRole)) {
+      alert("You do not have permission to access this module.");
+      return <Navigate to="/" />;
+    }
     return children;
   };
 

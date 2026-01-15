@@ -38,7 +38,7 @@ public class Event {
 
     // --- NAYA FIELD ADD KIYA ---
     @Column(name = "is_hidden")
-    private boolean isHidden = false; 
+    private Boolean isHidden = false; 
 
     // --- Getters and Setters ---
 
@@ -69,6 +69,6 @@ public class Event {
     public String getRegistrationFormLink() { return registrationFormLink; }
     public void setRegistrationFormLink(String registrationFormLink) { this.registrationFormLink = registrationFormLink; }
 
-    public boolean isHidden() { return isHidden; }
-    public void setHidden(boolean hidden) { isHidden = hidden; }
+    public Boolean isHidden() { return isHidden; }
+    public void setHidden(Boolean hidden) { isHidden = hidden; }
 }

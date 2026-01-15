@@ -65,9 +65,18 @@ public class EventController {
     // ===========================
     // CREATE EVENT
     // ===========================
-    @PostMapping("/events")
+   @PostMapping("/events")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-    return ResponseEntity.ok(eventRepository.save(event));
+    // 1. Check karein ki incoming event null toh nahi hai
+    if (event == null) {
+        return ResponseEntity.badRequest().build();
+    }
+
+    // 2. Data save karein
+    Event savedEvent = eventRepository.save(event);
+
+    // 4. Success: Created status (201) ke saath data return karein
+    return ResponseEntity.status(201).body(savedEvent);
 }
 
 

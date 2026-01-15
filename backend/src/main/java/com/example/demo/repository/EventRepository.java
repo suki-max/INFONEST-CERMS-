@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
-    @Query(value = "SELECT * FROM event WHERE club_id = :clubId", nativeQuery = true)
+    
+    // PostgreSQL native query with explicit casting for safety
+    @Query(value = "SELECT * FROM event WHERE CAST(club_id AS TEXT) = :clubId", nativeQuery = true)
     List<Event> findByClubId(@Param("clubId") String clubId);
 }
